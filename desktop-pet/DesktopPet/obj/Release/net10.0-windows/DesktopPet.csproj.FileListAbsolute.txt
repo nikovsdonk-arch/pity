@@ -1,0 +1,17 @@
+D:\codex1.00\desktop-pet\DesktopPet\bin\Release\net10.0-windows\wwwroot\app.js
+D:\codex1.00\desktop-pet\DesktopPet\bin\Release\net10.0-windows\wwwroot\index.html
+D:\codex1.00\desktop-pet\DesktopPet\bin\Release\net10.0-windows\DesktopPet.exe
+D:\codex1.00\desktop-pet\DesktopPet\bin\Release\net10.0-windows\DesktopPet.deps.json
+D:\codex1.00\desktop-pet\DesktopPet\bin\Release\net10.0-windows\DesktopPet.runtimeconfig.json
+D:\codex1.00\desktop-pet\DesktopPet\bin\Release\net10.0-windows\DesktopPet.dll
+D:\codex1.00\desktop-pet\DesktopPet\bin\Release\net10.0-windows\DesktopPet.pdb
+D:\codex1.00\desktop-pet\DesktopPet\obj\Release\net10.0-windows\DesktopPet.GeneratedMSBuildEditorConfig.editorconfig
+D:\codex1.00\desktop-pet\DesktopPet\obj\Release\net10.0-windows\DesktopPet.AssemblyInfoInputs.cache
+D:\codex1.00\desktop-pet\DesktopPet\obj\Release\net10.0-windows\DesktopPet.AssemblyInfo.cs
+D:\codex1.00\desktop-pet\DesktopPet\obj\Release\net10.0-windows\DesktopPet.csproj.CoreCompileInputs.cache
+D:\codex1.00\desktop-pet\DesktopPet\obj\Release\net10.0-windows\DesktopPet.sourcelink.json
+D:\codex1.00\desktop-pet\DesktopPet\obj\Release\net10.0-windows\DesktopPet.dll
+D:\codex1.00\desktop-pet\DesktopPet\obj\Release\net10.0-windows\refint\DesktopPet.dll
+D:\codex1.00\desktop-pet\DesktopPet\obj\Release\net10.0-windows\DesktopPet.pdb
+D:\codex1.00\desktop-pet\DesktopPet\obj\Release\net10.0-windows\DesktopPet.genruntimeconfig.cache
+D:\codex1.00\desktop-pet\DesktopPet\obj\Release\net10.0-windows\ref\DesktopPet.dll
