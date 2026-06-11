@@ -15,33 +15,30 @@ var dragStartX = 0, dragStartY = 0, modelStartX = 0, modelStartY = 0;
 var pointerX = 0.5, pointerY = 0.5;
 var animId = 0;
 
-function debug(msg) {
-  console.log("[Pet]", msg);
-}
+function debug(msg) { console.log("[Pet]", msg); }
 
 function init() {
   debug("Initializing...");
 
-  // Check if Live2D is available
-  if (typeof PIXI === "undefined") {
-    showToast("错误: PIXI.js 未加载");
-    return;
-  }
-  if (typeof PIXI.Live2DModel === "undefined") {
-    showToast("错误: Live2D 引擎未加载 (pixi-live2d-display)");
-    debug("PIXI keys: " + Object.keys(PIXI).filter(function(k) { return k.indexOf("Live") >= 0 || k.indexOf("live") >= 0; }).join(", "));
+  if (typeof PIXI === "undefined") { showToast("PIXI.js 未加载"); return; }
+
+  // cubism4 UMD exports to PIXI.live2d
+  var L2D = PIXI.live2d;
+  if (!L2D || !L2D.Live2DModel) {
+    showToast("Live2D 引擎未加载 (pixi-live2d-display)");
+    debug("PIXI keys: " + Object.keys(PIXI).filter(function(k) { return k.indexOf("live") >= 0 || k.indexOf("Live") >= 0; }).join(", "));
+    if (L2D) debug("live2d keys: " + Object.keys(L2D).join(", "));
     return;
   }
 
   var canvas = document.getElementById("canvas");
-  if (!canvas) { showToast("错误: 找不到 Canvas"); return; }
+  if (!canvas) { showToast("找不到 Canvas"); return; }
 
   var parent = canvas.parentElement;
-  var w = parent.clientWidth;
-  var h = parent.clientHeight;
+  var w = parent.clientWidth, h = parent.clientHeight;
   debug("Canvas size: " + w + "x" + h);
 
-  PIXI.Live2DModel.registerTicker(PIXI.Ticker);
+  L2D.Live2DModel.registerTicker(PIXI.Ticker);
 
   try {
     app = new PIXI.Application({
@@ -63,28 +60,12 @@ function init() {
   debug("PIXI app created");
 
   loadModel();
-
-  canvas.addEventListener("pointerdown", onDown);
-  canvas.addEventListener("pointermove", onMove);
-  canvas.addEventListener("pointerup", onUp);
-  canvas.addEventListener("pointerleave", onUp);
-
-  function eyeLoop() {
-    if (model && eyeEnabled && !isDragging && app) {
-      var rect = canvas.getBoundingClientRect();
-      if (rect.width > 0) {
-        var nx = (pointerX - rect.left) / rect.width;
-        var ny = (pointerY - rect.top) / rect.height;
-        model.focus((nx - 0.5) * 80, (ny - 0.5) * 50);
-      }
-    }
-    animId = requestAnimationFrame(eyeLoop);
-  }
-  eyeLoop();
+  bindEvents(canvas);
+  startEyeLoop(canvas);
 
   window.addEventListener("resize", function() {
     var pw = parent.clientWidth, ph = parent.clientHeight;
-    app.renderer.resize(pw, ph);
+    if (app) app.renderer.resize(pw, ph);
     if (model) fitModel(model);
   });
 }
@@ -93,21 +74,21 @@ function loadModel() {
   if (!app) return;
   if (model) { app.stage.removeChild(model); try { model.destroy(); } catch(e) {} model = null; }
 
+  var L2D = PIXI.live2d;
   debug("Loading model from: " + MODEL_URL);
   showToast("正在加载模型...");
 
-  var m = new PIXI.Live2DModel();
-  PIXI.Live2DFactory.setupLive2DModel(m, { url: MODEL_URL }, { autoInteract: false })
+  var m = new L2D.Live2DModel();
+  L2D.Live2DFactory.setupLive2DModel(m, { url: MODEL_URL }, { autoInteract: false })
     .then(function() {
       m.anchor.set(0.5, 0.5);
       model = m;
       fitModel(m);
       app.stage.addChild(m);
-      debug("Model loaded successfully");
+      debug("Model loaded OK");
       showToast("模型已加载");
 
       m.on("hit", function(areas) {
-        debug("Hit: " + areas.join(", "));
         for (var i = 0; i < areas.length; i++) {
           if (areas[i] === "head") { playAction("tap"); return; }
         }
@@ -115,8 +96,8 @@ function loadModel() {
     })
     .catch(function(err) {
       console.error("[Pet] Model load ERROR:", err);
-      debug("Model load failed: " + (err.message || err));
-      showToast("模型加载失败: " + (err.message || "未知错误，请查看控制台"));
+      debug("Load failed: " + (err && err.message ? err.message : err));
+      showToast("模型加载失败: " + (err && err.message ? err.message : "未知错误"));
     });
 }
 
@@ -127,20 +108,16 @@ function fitModel(m) {
   m.scale.set(scale, scale);
   m.x = w / 2;
   m.y = h / 2;
-  debug("Model fitted: scale=" + scale.toFixed(3) + ", pos=" + m.x.toFixed(0) + "x" + m.y.toFixed(0));
 }
 
 function playAction(action) {
-  if (!model) { debug("No model to play action"); return; }
+  if (!model) return;
   if (action === "blink") { blink(); return; }
-
   var candidates = MOTION_MAP[action];
   if (!candidates) return;
-
-  var internal = model.internalModel;
-  if (!internal || !internal.motionManager || !internal.motionManager.definitions) return;
-
-  var defs = internal.motionManager.definitions;
+  var im = model.internalModel;
+  if (!im || !im.motionManager || !im.motionManager.definitions) return;
+  var defs = im.motionManager.definitions;
   for (var g in defs) {
     if (!defs.hasOwnProperty(g)) continue;
     var gl = g.toLowerCase();
@@ -152,7 +129,6 @@ function playAction(action) {
       }
     }
   }
-  debug("No motion found for: " + action);
 }
 
 function blink() {
@@ -164,22 +140,38 @@ function blink() {
   }
 }
 
-function onDown(e) {
-  if (!model || !dragEnabled) return;
-  isDragging = true;
-  dragStartX = e.clientX; dragStartY = e.clientY;
-  modelStartX = model.x; modelStartY = model.y;
+function bindEvents(canvas) {
+  canvas.addEventListener("pointerdown", function(e) {
+    if (!model || !dragEnabled) return;
+    isDragging = true;
+    dragStartX = e.clientX; dragStartY = e.clientY;
+    modelStartX = model.x; modelStartY = model.y;
+  });
+  canvas.addEventListener("pointermove", function(e) {
+    pointerX = e.clientX; pointerY = e.clientY;
+    if (isDragging && dragEnabled && model) {
+      model.x = modelStartX + (e.clientX - dragStartX);
+      model.y = modelStartY + (e.clientY - dragStartY);
+    }
+  });
+  canvas.addEventListener("pointerup", function() { isDragging = false; });
+  canvas.addEventListener("pointerleave", function() { isDragging = false; });
 }
 
-function onMove(e) {
-  pointerX = e.clientX; pointerY = e.clientY;
-  if (isDragging && dragEnabled && model) {
-    model.x = modelStartX + (e.clientX - dragStartX);
-    model.y = modelStartY + (e.clientY - dragStartY);
+function startEyeLoop(canvas) {
+  function tick() {
+    if (model && eyeEnabled && !isDragging && app) {
+      var rect = canvas.getBoundingClientRect();
+      if (rect.width > 0) {
+        var nx = (pointerX - rect.left) / rect.width;
+        var ny = (pointerY - rect.top) / rect.height;
+        model.focus((nx - 0.5) * 80, (ny - 0.5) * 50);
+      }
+    }
+    animId = requestAnimationFrame(tick);
   }
+  tick();
 }
-
-function onUp() { isDragging = false; }
 
 function showToast(msg) {
   var el = document.getElementById("toast");
@@ -190,28 +182,34 @@ function showToast(msg) {
   el._timer = setTimeout(function() { el.classList.remove("show"); }, 3000);
 }
 
-// UI bindings
+// UI
 document.addEventListener("DOMContentLoaded", function() {
   debug("DOM ready");
   init();
 
-  document.getElementById("btnDrag").addEventListener("click", function() {
+  var btns = {
+    drag: document.getElementById("btnDrag"),
+    eye: document.getElementById("btnEye"),
+    tap: document.getElementById("btnTap"),
+    wave: document.getElementById("btnWave"),
+    blink: document.getElementById("btnBlink"),
+    reset: document.getElementById("btnReset"),
+  };
+
+  btns.drag.addEventListener("click", function() {
     dragEnabled = !dragEnabled;
     this.classList.toggle("active");
     showToast(dragEnabled ? "拖拽已开启" : "拖拽已关闭");
   });
-
-  document.getElementById("btnEye").addEventListener("click", function() {
+  btns.eye.addEventListener("click", function() {
     eyeEnabled = !eyeEnabled;
     this.classList.toggle("active");
     showToast(eyeEnabled ? "眼神追踪已开启" : "眼神追踪已关闭");
   });
-
-  document.getElementById("btnTap").addEventListener("click", function() { playAction("tap"); });
-  document.getElementById("btnWave").addEventListener("click", function() { playAction("wave"); });
-  document.getElementById("btnBlink").addEventListener("click", function() { playAction("blink"); });
-
-  document.getElementById("btnReset").addEventListener("click", function() {
+  btns.tap.addEventListener("click", function() { playAction("tap"); });
+  btns.wave.addEventListener("click", function() { playAction("wave"); });
+  btns.blink.addEventListener("click", function() { playAction("blink"); });
+  btns.reset.addEventListener("click", function() {
     if (model && app) fitModel(model);
     showToast("已重置位置");
   });
