@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的商品</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <div class="header__logo">
+        <span class="header__logo-icon">✦</span>
+        <span class="header__logo-text">Shop</span>
+      </div>
+      <nav class="header__nav">
+        <a href="#products" class="header__link">全部商品</a>
+        <a href="#categories" class="header__link">分类</a>
+        <a href="#about" class="header__link">关于</a>
+        <button class="header__cart-btn" id="cartBtn" aria-label="购物车">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span class="header__cart-count" id="cartCount">0</span>
+        </button>
+      </nav>
+      <button class="header__menu-toggle" id="menuToggle" aria-label="菜单">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <span class="hero__tag">精选好物</span>
+        <h1 class="hero__title">发现生活中的<span class="hero__highlight">美好设计</span></h1>
+        <p class="hero__desc">每一件商品都经过精心挑选，只为给你带来更好的生活体验</p>
+        <div class="hero__actions">
+          <a href="#products" class="btn btn--primary">浏览商品</a>
+          <a href="#about" class="btn btn--outline">了解更多</a>
+        </div>
+      </div>
+      <div class="hero__visual">
+        <div class="hero__floating-cards">
+          <div class="hero__card hero__card--1">🎧</div>
+          <div class="hero__card hero__card--2">📱</div>
+          <div class="hero__card hero__card--3">⌚</div>
+          <div class="hero__card hero__card--4">💻</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="categories" id="categories">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__label">分类浏览</span>
+        <h2 class="section__title">商品分类</h2>
+      </div>
+      <div class="categories__grid" id="categoriesGrid">
+      </div>
+    </div>
+  </section>
+
+  <section class="products" id="products">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__label">全部商品</span>
+        <h2 class="section__title">发现好物</h2>
+      </div>
+      <div class="products__toolbar">
+        <div class="products__filters" id="filterButtons">
+          <button class="filter__btn filter__btn--active" data-filter="all">全部</button>
+        </div>
+        <div class="products__search">
+          <svg class="search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="text" class="search__input" id="searchInput" placeholder="搜索商品..." />
+        </div>
+      </div>
+      <div class="products__grid" id="productsGrid"></div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="container">
+      <div class="section__header">
+        <span class="section__label">关于我们</span>
+        <h2 class="section__title">用心挑选每一件好物</h2>
+      </div>
+      <div class="about__content">
+        <div class="about__card">
+          <div class="about__icon">🎯</div>
+          <h3>精选品质</h3>
+          <p>每一件商品都经过严格筛选，确保品质卓越</p>
+        </div>
+        <div class="about__card">
+          <div class="about__icon">🚚</div>
+          <h3>极速发货</h3>
+          <p>下单后24小时内发货，最快次日送达</p>
+        </div>
+        <div class="about__card">
+          <div class="about__icon">💬</div>
+          <h3>贴心服务</h3>
+          <p>7x24小时在线客服，随时为你解答疑问</p>
+        </div>
+        <div class="about__card">
+          <div class="about__icon">🔄</div>
+          <h3>无忧退换</h3>
+          <p>7天无理由退换货，购物零风险</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo">✦ Shop</span>
+        <p class="footer__desc">发现生活中的美好设计</p>
+      </div>
+      <div class="footer__links">
+        <div class="footer__col">
+          <h4>商品分类</h4>
+          <a href="#">电子产品</a>
+          <a href="#">生活家居</a>
+          <a href="#">服饰配饰</a>
+        </div>
+        <div class="footer__col">
+          <h4>客户服务</h4>
+          <a href="#">帮助中心</a>
+          <a href="#">退换政策</a>
+          <a href="#">联系我们</a>
+        </div>
+        <div class="footer__col">
+          <h4>关注我们</h4>
+          <a href="#">微信公众号</a>
+          <a href="#">小红书</a>
+          <a href="#">抖音</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="container">
+        <p>&copy; 2026 Shop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-sidebar__overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar__panel">
+      <div class="cart-sidebar__header">
+        <h3>购物车</h3>
+        <button class="cart-sidebar__close" id="cartClose" aria-label="关闭">✕</button>
+      </div>
+      <div class="cart-sidebar__body" id="cartBody">
+        <div class="cart-sidebar__empty">
+          <span class="cart-empty__icon">🛒</span>
+          <p>购物车还是空的</p>
+          <span class="cart-empty__sub">快去逛逛吧</span>
+        </div>
+      </div>
+      <div class="cart-sidebar__footer">
+        <div class="cart-sidebar__total">
+          <span>合计</span>
+          <span class="cart-total__price" id="cartTotal">¥0.00</span>
+        </div>
+        <button class="btn btn--primary cart-sidebar__checkout" onclick="alert('已提交订单！（演示功能）')">去结算</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
