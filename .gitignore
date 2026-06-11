@@ -3,3 +3,7 @@ Thumbs.db
 *.log
 node_modules/
 .env
+desktop-pet/DesktopPet/obj/
+desktop-pet/DesktopPet/bin/
+desktop-pet/dist/
+local-nuget/

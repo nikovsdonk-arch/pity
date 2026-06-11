@@ -1,7 +1,0 @@
-D:\codex1.00\desktop-pet\dist\DesktopPet.exe
-D:\codex1.00\desktop-pet\dist\wwwroot\app.js
-D:\codex1.00\desktop-pet\dist\wwwroot\index.html
-D:\codex1.00\desktop-pet\dist\DesktopPet.dll
-D:\codex1.00\desktop-pet\dist\DesktopPet.deps.json
-D:\codex1.00\desktop-pet\dist\DesktopPet.runtimeconfig.json
-D:\codex1.00\desktop-pet\dist\DesktopPet.pdb
