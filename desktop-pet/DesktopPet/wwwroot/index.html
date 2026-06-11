@@ -27,8 +27,10 @@ canvas{display:block;width:100%;height:100%}
   <button class="ui-btn" id="btnReset">重置</button>
 </div>
 <div class="toast" id="toast"></div>
+<!-- IMPORTANT: live2dcubismcore must load BEFORE pixi-live2d-display -->
+<script src="vendor/live2dcubismcore.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.3.2/dist/pixi.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.4.0/dist/cubism4.min.js"></script>
+<script src="vendor/cubism4.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
