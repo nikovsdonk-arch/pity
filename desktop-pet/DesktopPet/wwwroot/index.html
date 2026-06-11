@@ -1,38 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>桌宠</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100%;height:100%;overflow:hidden;background:linear-gradient(135deg,#667eea,#764ba2);user-select:none}
-canvas{display:block;width:100%;height:100%}
-.ui-bar{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:100;display:flex;gap:8px;background:rgba(255,255,255,0.9);backdrop-filter:blur(12px);padding:8px 16px;border-radius:14px;border:1px solid rgba(0,0,0,0.06);box-shadow:0 8px 32px rgba(0,0,0,0.1)}
-.ui-btn{padding:6px 14px;font-size:13px;font-weight:600;color:#475569;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;cursor:pointer;transition:all .15s}
-.ui-btn:hover{background:#e2e8f0;color:#1a1a2e;transform:translateY(-1px)}
-.ui-btn:active{transform:scale(.95)}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:200;padding:10px 24px;background:rgba(255,255,255,0.95);border-radius:12px;font-size:13px;font-weight:500;color:#1a1a2e;box-shadow:0 8px 32px rgba(0,0,0,0.15);opacity:0;transition:opacity .3s;pointer-events:none}
-.toast.show{opacity:1}
-</style>
-</head>
-<body>
-<canvas id="canvas"></canvas>
-<div class="ui-bar">
-  <button class="ui-btn" id="btnDrag" data-active="1">🖱️ 拖拽</button>
-  <button class="ui-btn" id="btnEye" data-active="1">👀 眼神</button>
-  <button class="ui-btn" id="btnBlink">😉 眨眼</button>
-  <button class="ui-btn" id="btnTap">👆 轻触</button>
-  <button class="ui-btn" id="btnReset">🏠 重置</button>
-</div>
-<div class="toast" id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/pixi.js@7.3.2/dist/pixi.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.5.1/dist/cubism4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/Eikanya/Live2d-model/Live2D/Senko_Normals/senko.model3.json"></script>
-<script src="app.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -62,7 +28,7 @@ canvas{display:block;width:100%;height:100%}
 </div>
 <div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/pixi.js@7.3.2/dist/pixi.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.5.1/dist/cubism4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display@0.4.0/dist/cubism4.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
